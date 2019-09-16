@@ -1,0 +1,5 @@
+user:
+  restapi:
+    registered: https://5c3ce12c29429300143fe570.mockapi.io/api/registeredusers
+    unregistered: https://5c3ce12c29429300143fe570.mockapi.io/api/unregisteredusers
+    projectMembership: https://5c3ce12c29429300143fe570.mockapi.io/api/projectmemberships
