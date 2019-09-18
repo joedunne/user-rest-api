@@ -36,7 +36,7 @@ public class UserController {
 
     /**
      * Get All Users both registered and unregistered in a unified list.
-     * Also fills in the project memebership information for each user.
+     * Also fills in the project membership information for each user.
      * @return Collection of all users
      */
     @RequestMapping("/api/allusers")
