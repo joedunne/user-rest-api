@@ -2,12 +2,14 @@ package com.merrill.userrest
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.test.context.web.WebAppConfiguration
 import org.springframework.web.client.RestTemplate
 import spock.lang.Specification
 
-//@WebAppConfiguration
-//@SpringBootTest
+@WebAppConfiguration
+@SpringBootTest
 class UserServiceIntegrationTest extends Specification {
 
     RestTemplate restTemplate
