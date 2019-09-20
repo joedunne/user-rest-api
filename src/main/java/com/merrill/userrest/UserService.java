@@ -25,6 +25,10 @@ public class UserService {
     @Autowired
     private RestTemplate restTemplate;
 
+    /**
+     * Get the full list of all registered Users.
+     * @return List of MerrillUser objects
+     */
     public List<MerrillUser> registeredUsers() {
         ResponseEntity<List<MerrillUser>> responseEntity =
                 restTemplate.exchange(registeredUsersUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<MerrillUser>>() {
@@ -32,6 +36,10 @@ public class UserService {
         return responseEntity.getBody();
     }
 
+    /**
+     * Get the full list of all unregistered Users.
+     * @return List of MerrillUser objects
+     */
     public List<MerrillUser> unregisteredUsers() {
         ResponseEntity<List<MerrillUser>> responseEntity =
                 restTemplate.exchange(unregisteredUsersUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<MerrillUser>>() {
@@ -39,6 +47,10 @@ public class UserService {
         return responseEntity.getBody();
     }
 
+    /**
+     * Get the full list of all project memberships by userid.
+     * @return List of ProjectMembership objects
+     */
     public List<ProjectMembership> projectMembership() {
         ResponseEntity<List<ProjectMembership>> responseEntity =
                 restTemplate.exchange(projectMembershipUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<ProjectMembership>>() {
