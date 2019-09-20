@@ -75,6 +75,31 @@ class UserControllerTest extends Specification {
         where:
         expected                                                                              || registered || unregistered                                                                          || projectMembership
         [new MerrillUser(id: '1', registrationId: '123', registrationIdGeneratedTime: '456')] || []         || [new MerrillUser(id: '1', registrationId: '123', registrationIdGeneratedTime: '456')] || []
+        [new MerrillUser(id: '1', emailAddress: '123', languageCode: '456')]                  || []         || [new MerrillUser(id: '1', emailAddress: '123', languageCode: '456')]                  || []
+
+    }
+
+    @Unroll
+    def "registerdProperties"() {
+        given:
+        UserService mockUserService = Mock()
+        UserController controller = new UserController(userService: mockUserService)
+        mockUserService.registeredUsers() >> registered
+        mockUserService.unregisteredUsers() >> unregistered
+        mockUserService.projectMembership() >> projectMembership
+
+        when:
+        List<MerrillUser> result = controller.allUsers()
+
+        then:
+        result == expected
+
+        where:
+        expected                                                                                       || registered                                                                                     || unregistered || projectMembership
+        [new MerrillUser(id: '1', city: '123', company: '456', country: 'usa')]                        || [new MerrillUser(id: '1', city: '123', company: '456', country: 'usa')]                        || []           || []
+        [new MerrillUser(id: '1', firstName: '123', lastName: '456', organizationType: 'usa')]         || [new MerrillUser(id: '1', firstName: '123', lastName: '456', organizationType: 'usa')]         || []           || []
+        [new MerrillUser(id: '1', phone: '123', state: '456', zipCode: 'usa')]                         || [new MerrillUser(id: '1', phone: '123', state: '456', zipCode: 'usa')]                         || []           || []
+        [new MerrillUser(id: '1', emailAddress: '123', languageCode: '456', disclaimerAccepted: true)] || [new MerrillUser(id: '1', emailAddress: '123', languageCode: '456', disclaimerAccepted: true)] || []           || []
 
     }
 }
