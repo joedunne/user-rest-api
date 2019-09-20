@@ -19,8 +19,13 @@ public class MerrillUser {
     private String phone;
     private String state;
     private String zipCode;
-    private boolean disclaimerAccepted;
+    private Boolean disclaimerAccepted;
     private String languageCode;
     private String emailAddress;
     private List<String> projectIds = new ArrayList<>();
+
+    //unregistered properties
+    private String registrationId;
+    private String registrationIdGeneratedTime;
+
 }

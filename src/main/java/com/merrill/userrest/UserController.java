@@ -22,18 +22,8 @@ import java.util.stream.Stream;
 @Slf4j
 public class UserController {
 
-    @Value("${user.restapi.registered}")
-    private String registeredUsersUrl;
-
-    @Value("${user.restapi.unregistered}")
-    private String unregisteredUsersUrl;
-
-    @Value("${user.restapi.projectMembership}")
-    private String projectMembershipUrl;
-
     @Autowired
-    private RestTemplate restTemplate;
-
+    private UserService userService;
     /**
      * Get All Users both registered and unregistered in a unified list.
      * Also fills in the project membership information for each user.
@@ -41,11 +31,11 @@ public class UserController {
      */
     @RequestMapping("/api/allusers")
     public Collection<MerrillUser> allUsers() {
-        Map<String, MerrillUser> users = Stream.of(userRestApiCall(registeredUsersUrl), userRestApiCall(unregisteredUsersUrl))
+        Map<String, MerrillUser> users = Stream.of(userService.registeredUsers(), userService.unregisteredUsers())
                 .flatMap(List::stream).collect(Collectors.toMap(MerrillUser::getId, Function.identity()));
 
         //now add in all the projectIds...
-        projectMembershipRestApiCall(projectMembershipUrl).forEach(projectMembership -> {
+        userService.projectMembership().forEach(projectMembership -> {
             if (users.containsKey(projectMembership.getUserId())) {
                 users.get(projectMembership.getUserId()).getProjectIds().add(projectMembership.getProjectId());
             } else {
@@ -53,20 +43,6 @@ public class UserController {
             }
         });
         return new ArrayList<>(users.values());
-    }
-
-    private List<MerrillUser> userRestApiCall(String url) {
-        ResponseEntity<List<MerrillUser>> responseEntity =
-                restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<MerrillUser>>() {
-                });
-        return responseEntity.getBody();
-    }
-
-    private List<ProjectMembership> projectMembershipRestApiCall(String url) {
-        ResponseEntity<List<ProjectMembership>> responseEntity =
-                restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<ProjectMembership>>() {
-                });
-        return responseEntity.getBody();
     }
 
 }
